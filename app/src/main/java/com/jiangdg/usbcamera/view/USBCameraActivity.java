@@ -37,8 +37,6 @@ import com.serenegiant.usb.widget.CameraViewInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * UVCCamera use demo
@@ -48,15 +46,15 @@ import butterknife.ButterKnife;
 
 public class USBCameraActivity extends AppCompatActivity implements CameraDialog.CameraDialogParent, CameraViewInterface.Callback {
     private static final String TAG = "Debug";
-    @BindView(R.id.camera_view)
+//    @BindView(R.id.camera_view)
     public View mTextureView;
-    @BindView(R.id.toolbar)
+//    @BindView(R.id.toolbar)
     public Toolbar mToolbar;
-    @BindView(R.id.seekbar_brightness)
+//    @BindView(R.id.seekbar_brightness)
     public SeekBar mSeekBrightness;
-    @BindView(R.id.seekbar_contrast)
+//    @BindView(R.id.seekbar_contrast)
     public SeekBar mSeekContrast;
-    @BindView(R.id.switch_rec_voice)
+//    @BindView(R.id.switch_rec_voice)
     public Switch mSwitchVoice;
 
     private UVCCameraHelper mCameraHelper;
@@ -128,7 +126,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usbcamera);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         initView();
 
         // step.1 initialize UVCCameraHelper
@@ -148,6 +146,16 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
     private void initView() {
         setSupportActionBar(mToolbar);
+
+        mTextureView = findViewById(R.id.camera_view);
+        mToolbar = findViewById(R.id.toolbar);
+        mSeekBrightness = findViewById(R.id.seekbar_brightness);
+        mSeekContrast = findViewById(R.id.seekbar_contrast);
+        mSwitchVoice = findViewById(R.id.switch_rec_voice);
+
+
+
+
 
         mSeekBrightness.setMax(100);
         mSeekBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
