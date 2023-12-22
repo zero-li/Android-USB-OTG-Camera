@@ -4,7 +4,6 @@ import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +17,13 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
-import com.jiangdg.usbcamera.R;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.jiangdg.usbcamera.R;
 import com.jiangdg.usbcamera.UVCCameraHelper;
 import com.jiangdg.usbcamera.application.MyApplication;
 import com.jiangdg.usbcamera.utils.FileUtils;
@@ -44,7 +44,8 @@ import java.util.List;
  * Created by jiangdongguo on 2017/9/30.
  */
 
-public class USBCameraActivity extends AppCompatActivity implements CameraDialog.CameraDialogParent, CameraViewInterface.Callback {
+public class USBCameraActivity extends AppCompatActivity implements CameraDialog.CameraDialogParent, CameraViewInterface.Callback
+        , AbstractUVCCameraHandler.OnEncodeResultListener{
     private static final String TAG = "Debug";
 //    @BindView(R.id.camera_view)
     public View mTextureView;
@@ -113,6 +114,11 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
                         Looper.loop();
                     }
                 }).start();
+
+
+                RecordParams params = new RecordParams();
+                params.setVoiceClose(false);
+                mCameraHelper.startPusher(params,USBCameraActivity.this);
             }
         }
 
@@ -136,12 +142,12 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
         mCameraHelper.setDefaultFrameFormat(UVCCameraHelper.FRAME_FORMAT_MJPEG);
         mCameraHelper.initUSBMonitor(this, mUVCCameraView, listener);
 
-        mCameraHelper.setOnPreviewFrameListener(new AbstractUVCCameraHandler.OnPreViewResultListener() {
-            @Override
-            public void onPreviewResult(byte[] nv21Yuv) {
-                Log.d(TAG, "onPreviewResult: "+nv21Yuv.length);
-            }
-        });
+//        mCameraHelper.setOnPreviewFrameListener(new AbstractUVCCameraHandler.OnPreViewResultListener() {
+//            @Override
+//            public void onPreviewResult(byte[] nv21Yuv) {
+//                Log.d(TAG, "onPreviewResult: "+nv21Yuv.length);
+//            }
+//        });
     }
 
     private void initView() {
@@ -405,8 +411,32 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
     @Override
     public void onSurfaceDestroy(CameraViewInterface view, Surface surface) {
         if (isPreview && mCameraHelper.isCameraOpened()) {
+            mCameraHelper.stopPusher();
+            AbstractUVCCameraHandler.mListener = null;
+
             mCameraHelper.stopPreview();
             isPreview = false;
         }
+    }
+
+    @Override
+    public void onEncodeResult(byte[] data, int offset, int length, long timestamp, int type) {
+        if(data != null && data.length>0){
+            Log.i(TAG,"onEncodeResult" + " type:" + type+ " data:"+ (data.length));
+
+            // type = 1,h264 video stream
+            if (type == 1) {
+                Log.i(TAG," h264 video stream");
+            }
+            // type = 0,aac audio stream
+            if(type == 0) {
+                Log.i(TAG,"aac audio stream");
+            }
+        }
+    }
+
+    @Override
+    public void onRecordResult(String videoPath) {
+
     }
 }

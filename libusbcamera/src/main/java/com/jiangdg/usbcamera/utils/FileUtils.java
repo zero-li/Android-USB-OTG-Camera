@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class FileUtils {
 
-    public static final String ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static String ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     private static BufferedOutputStream outputStream;
 

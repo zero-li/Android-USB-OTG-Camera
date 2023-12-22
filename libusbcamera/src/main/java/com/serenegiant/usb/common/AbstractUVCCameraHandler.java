@@ -674,7 +674,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 //			mUVCCamera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_NV21);
 
             // 初始化混合器
-            if (params != null) {
+            if (params != null && !TextUtils.isEmpty(params.getRecordPath())) {
                 isSupportOverlay = params.isSupportOverlay();
                 if(isSupportOverlay) {
                     // init overlay engine
