@@ -3,10 +3,9 @@ package com.jiangdg.usbcamera;
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.hardware.usb.UsbDevice;
-import android.os.Environment;
+import android.util.Log;
 
 import com.jiangdg.libusbcamera.R;
-import org.easydarwin.sw.TxtOverlay;
 import com.serenegiant.usb.DeviceFilter;
 import com.serenegiant.usb.Size;
 import com.serenegiant.usb.USBMonitor;
@@ -16,6 +15,7 @@ import com.serenegiant.usb.common.UVCCameraHandler;
 import com.serenegiant.usb.encoder.RecordParams;
 import com.serenegiant.usb.widget.CameraViewInterface;
 
+import org.easydarwin.sw.TxtOverlay;
 
 import java.io.File;
 import java.util.List;
@@ -87,6 +87,7 @@ public class UVCCameraHelper {
             // do request device permission
             @Override
             public void onAttach(UsbDevice device) {
+                Log.i(TAG, "onAttach: "+ listener);
                 if (listener != null) {
                     listener.onAttachDev(device);
                 }
@@ -96,6 +97,7 @@ public class UVCCameraHelper {
             // do close camera
             @Override
             public void onDettach(UsbDevice device) {
+                Log.i(TAG, "onDettach: "+ listener);
                 if (listener != null) {
                     listener.onDettachDev(device);
                 }

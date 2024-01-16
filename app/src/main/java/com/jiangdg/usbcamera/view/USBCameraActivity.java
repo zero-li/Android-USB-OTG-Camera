@@ -69,9 +69,10 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onAttachDev(UsbDevice device) {
+            Log.i("OnMyDevConnectListener", "OnMyDevConnectListener onAttachDev: ");
             // request open permission
             if (!isRequest) {
-                isRequest = true;
+                //isRequest = true;
                 if (mCameraHelper != null) {
                     mCameraHelper.requestPermission(0);
                 }
@@ -80,6 +81,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onDettachDev(UsbDevice device) {
+            Log.i("OnMyDevConnectListener", "OnMyDevConnectListener onDettachDev: ");
             // close camera
             if (isRequest) {
                 isRequest = false;
@@ -90,6 +92,8 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onConnectDev(UsbDevice device, boolean isConnected) {
+            Log.i("OnMyDevConnectListener", "OnMyDevConnectListener onConnectDev: ");
+            isRequest = true;
             if (!isConnected) {
                 showShortMsg("fail to connect,please check resolution params");
                 isPreview = false;
@@ -124,6 +128,7 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onDisConnectDev(UsbDevice device) {
+            Log.i("OnMyDevConnectListener", "OnMyDevConnectListener onDisConnectDev: ");
             showShortMsg("disconnecting");
         }
     };

@@ -671,7 +671,7 @@ public final class USBMonitor {
 
 	private final void processDettach(final UsbDevice device) {
 		if (destroyed) return;
-		if (DEBUG) Log.v(TAG, "processDettach:");
+		if (DEBUG) Log.v(TAG, "processDettach: mOnDeviceConnectListener "+ mOnDeviceConnectListener);
 		if (mOnDeviceConnectListener != null) {
 			mAsyncHandler.post(new Runnable() {
 				@Override
@@ -729,7 +729,7 @@ public final class USBMonitor {
 		if (useNewAPI && BuildCheck.isAndroid5()) {
 			sb.append("#");
 			if (TextUtils.isEmpty(serial)) {
-				sb.append(device.getSerialNumber());	sb.append("#");	// API >= 21
+				//sb.append(device.getSerialNumber());	sb.append("#");	// API >= 21
 			}
 			sb.append(device.getManufacturerName());	sb.append("#");	// API >= 21
 			sb.append(device.getConfigurationCount());	sb.append("#");	// API >= 21
@@ -960,7 +960,7 @@ public final class USBMonitor {
 			if (BuildCheck.isLollipop()) {
 				info.manufacturer = device.getManufacturerName();
 				info.product = device.getProductName();
-				info.serial = device.getSerialNumber();
+				//info.serial = device.getSerialNumber();
 			}
 			if (BuildCheck.isMarshmallow()) {
 				info.usb_version = device.getVersion();
